@@ -1,4 +1,31 @@
+#!/bin/sh
+
+FLAGFILE=/var/run/work-was-already-done
+REPO=/home/pi/Desktop/RingReaderEUI
+
+case "$IFACE" in
+    lo)
+        # The loopback interface does not count.
+        # only run when some other interface comes up
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
+if [ -e $FLAGFILE ]; then
+    exit 0
+else
+    touch $FLAGFILE
+fi
+
+cd $REPO
+
 ip addr show wlan0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' > ip.txt
+echo '\r\n' > ip.txt
+ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/' > ip.txt
+
+cat ip.txt
 
 git add ip.txt
 
