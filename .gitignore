@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+# misc
+Emergent User Interfaces-7ff84c2f07be.json
