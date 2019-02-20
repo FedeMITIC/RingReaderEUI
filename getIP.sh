@@ -1,6 +1,5 @@
 #!/bin/sh
 
-FLAGFILE=/var/run/work-was-already-done
 REPO=/home/pi/Desktop/RingReaderEUI
 
 case "$IFACE" in
@@ -12,12 +11,6 @@ case "$IFACE" in
     *)
         ;;
 esac
-
-if [ -e $FLAGFILE ]; then
-    exit 0
-else
-    touch $FLAGFILE
-fi
 
 cd $REPO
 
