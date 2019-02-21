@@ -1,1 +1,0 @@
-[b'default', b'via', b'192.168.10.1', b'dev', b'eth0', b'src', b'192.168.10.42', b'metric', b'202', b'192.168.10.0/24', b'dev', b'eth0', b'proto', b'kernel', b'scope', b'link', b'src', b'192.168.10.42', b'metric', b'202']
