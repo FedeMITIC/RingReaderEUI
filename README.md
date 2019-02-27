@@ -33,3 +33,5 @@ Raspberry PI 3 model B+
 Raspberry PI Charger  
 Raspberry PI Camera  
 
+### Notes
+https://www.pyimagesearch.com/2017/07/10/using-tesseract-ocr-python/
