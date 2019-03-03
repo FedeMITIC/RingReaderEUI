@@ -76,13 +76,12 @@ def resize(img, basewidth):
 def start(path):
     try:
         im = Image.open(path)
-        orig_im = im
     except FileNotFoundError:
         print("Impossible to load {}, file not found.".format(path))
     width, height = im.size
     print('Original size ({}, {})'.format(width, height))
     # Resize the image
-    im = resize(im, 300)
+    im = resize(im, 600)
     width, height = im.size
     print('New size ({}, {})'.format(width, height))
     # Save the resized image
@@ -102,8 +101,7 @@ def start(path):
 
     with open(path + '.thumbnail', "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
-    img_filetype = path.split('.')[1]
-    img_filetype = 'image/' + img_filetype
+    img_filetype = 'image/jpg'  # Will fix one day to support also .png and other stuff...
     encoded_string = 'data:' + img_filetype + ';base64,' + encoded_string.decode("utf-8")
     print(img_filetype)
     url = 'https://api.ocr.space/parse/image'
