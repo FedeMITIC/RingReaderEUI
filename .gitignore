@@ -108,3 +108,6 @@ venv.bak/
 Emergent User Interfaces-7ff84c2f07be.json
 # Don't want thumbnails that are generated at runtime
 test_imgs/*.thumbnail
+
+.idea/
+.idea/*
