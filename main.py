@@ -15,10 +15,18 @@ Date:	    26/02/2019
 Version     0.1.0
 License:    MIT
 """
-
 from utility import *
 # from detect_text import image_to_text
 from tts import text_to_speech
+import os
+
+
+def cleanup():
+    # remove the api key
+    API_KEY = ''
+    # check if audio files still exists and remove them
+    if os.path.exists(path=path):
+        os.remove(path=path)
 
 
 def main():
@@ -32,17 +40,19 @@ def main():
 
 def start():
     # Define the params to capture the image
-    params = []
+    img_capture_params = []
+    # Tmp path to store the audio
+    path = 'output.ogg'
     # Capture the image using the camera
-    image = capture_image(parameters=params)
+    image = capture_image(parameters=img_capture_params)
     # Extract the text from the image
     # text = image_to_text(API_KEY, image)
     text = 'Some random text that will be read aloud from the Raspberry Pi\'s speakers'
+
     # Transform the text into speech
-    audio = text_to_speech(api_key=API_KEY, text=text)
-    # Play audio
-    audio_path = 'audio.ogg'
-    play_audio(path=audio_path)
+    if text_to_speech(api_key=API_KEY, text=text, path=path):
+        # Play audio
+        play_audio(path=path)
 
 
 def setup():
@@ -55,8 +65,10 @@ def setup():
     except FileNotFoundError:
         print('Impossible to load API Key')
         exit(1)
+    global path
 
 
 if __name__ == "__main__":
     setup()
     main()
+    cleanup()
