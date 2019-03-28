@@ -47,7 +47,7 @@ def detect_text_api(endpoint, data_to_send):
         'Content-Type': 'application/json; charset=utf-8',
     }
     # data using a Base64 image
-    data = '{"requests":[{"image":{"content":"' + encode_image(data_to_send).decode('utf-8') + '"},"features":[{"type":"TEXT_DETECTION"}]}]}'
+    data = '{"requests":[{"image":{"content":"' + encode_image(data_to_send).decode('utf-8') + '"},"features":[{"type":"DOCUMENT_TEXT_DETECTION"}]}]}'
     # data using a URL
     # data = "{'requests': [{'image': {'source': {'imageUri': 'gs://bucket-name-123/abbey_road.jpg'}},'features':[{" \
     #      "'type': 'TEXT_DETECTION'}]}]} "
