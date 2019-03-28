@@ -13,24 +13,34 @@ Version     0.1.0
 License:    MIT
 """
 import pygame
-import RPi.GPIO as GPIO
 
 
-def button_pressed():
-    # if not is_button_setup:
-    #    print('First ensure that the button is properly setted-up.')
-    #    exit(1)
-    return GPIO.input(button_pin)
+def help_button_pressed():
+    if not buttons_setup_done:
+        print('First ensure that the buttons are properly setted-up.')
+        exit(1)
+    return GPIO.input(help_button_pin)
 
 
-def button_setup():
-    global is_button_setup
-    is_button_setup = False
+def photo_button_pressed():
+    if not buttons_setup_done:
+        print('First ensure that the buttons are properly setted-up.')
+        exit(1)
+    return GPIO.input(photo_button_pin)
+
+
+def buttons_setup():
+    import RPi.GPIO as GPIO
+    global buttons_setup_done
+    buttons_setup_done = False
     GPIO.setmode(GPIO.BOARD)
-    global button_pin
-    button_pin = 16
-    GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    is_button_setup = True
+    global help_button_pin
+    global photo_button_pin
+    help_button_pin = 16  # Edit accordingly to the circuit
+    photo_button_pin = 18  # Edit accordingly to the circuit
+    GPIO.setup(help_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(photo_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    buttons_setup_done = True
 
 
 def capture_image(parameters):
@@ -44,4 +54,3 @@ def play_audio(path):
     pygame.mixer.music.play()
     while pygame.mixer.music.get_busy():
         continue
-
