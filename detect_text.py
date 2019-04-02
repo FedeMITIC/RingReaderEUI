@@ -11,9 +11,10 @@ License:    MIT
 """
 import sys
 from api import *
+import json
 
 
-def detect_text(api_key, path):
+def image_to_text(api_key, path):
     # try:
     #     image = get_image(path)
     # except FileNotFoundError:
@@ -25,13 +26,9 @@ def detect_text(api_key, path):
     except APIError:
         exit(API_ERROR_INVALID_FORMAT)
     print("Detected text: {}".format(text_from_image))
+    # This is just terrible.
+    text = json.loads(text_from_image, encoding='utf-8')
+    text = text['responses']
+    return text[0]['textAnnotations'][0]['description']
     # Process the extracted text
 
-
-# Used only to test if the API works, will be removed.
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Please specify an image file to load.")
-        exit(1)
-    print('DEBUG')
-    detect_text(api_key=open('../API.txt', 'r').read(), path=sys.argv[1])

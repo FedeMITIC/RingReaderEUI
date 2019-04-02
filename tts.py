@@ -40,24 +40,26 @@ Version     0.1.0
 License:    MIT
 """
 from api import *
+import json
 
 
 def text_to_speech(api_key, text, path):
+    """
+        Important: the text sent to the server MUST NOT CONTAIN:
+        - The "'" (single quotation mark) symbol
+        - The '"' (double quotation mark) symbol
+    """
     # Append the API Key to the endpoint to authenticate with the APIs
     endpoint = 'https://texttospeech.googleapis.com/v1/text:synthesize?key=' + str(api_key)
-    result = False
     try:
-        result = synthesize_text_api(endpoint=endpoint, data_to_send=text, file_path=path)
+        result = synthesize_text_api(endpoint=endpoint, data_to_send=text)
     except APIError:
         print('API call failed.')
         result = False
-    return result
+    api_response = json.loads(result)
+    base_64_content = api_response['audioContent']
+    file = open(path + '.txt', 'w+')
+    file.write(base_64_content)
+    file.close()
+    return True
 
-
-# Used only to test if the API works, will be removed.
-if __name__ == '__main__':
-    print('DEBUG')
-    text = "Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, " \
-           "thank you very much. They were the last people you'd expect to be involved in anything strange or " \
-           "mysterious, because they just didn't hold with such nonsense."
-    text_to_speech(api_key=open('../API.txt', 'r').read(), text=text, path='output.ogg')
