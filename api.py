@@ -35,7 +35,9 @@ class APIError(Exception):
 def detect_text_api(endpoint, data_to_send):
     """
     detect_text: query the remote API to detect and extract the text from the image
-    :param path: the input image
+    :param endpoint: the API endpoint
+        :type: string
+    :param data_to_send: the PATH of the image to convert to base64 and send
         :type: string
     :return: the extracted text
         :type: string
@@ -91,21 +93,22 @@ def pretty_print_post(req):
     this function because it is programmed to be pretty
     printed and may differ from the actual request.
     """
-    print('{}\n{}\n{}\n\n{}'.format(
+    print('{}\n{}\n{}\n\n{}\n{}'.format(
         '-----------START-----------',
         req.method + ' ' + req.url,
         '\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
         req.body,
+        '------------END------------'
     ))
 
 
-def synthesize_text_api(endpoint, data_to_send, file_path):
+def synthesize_text_api(endpoint, data_to_send):
     """
         synthesize_text: query the remote API to transform the text into speech
         :param endpoint: the remote API endpoint
             :type: string
         :param data_to_send: the text to be syntesized
-        :param file_path: the path to use to save the audio
+            :type: string
         :return:
             :type: True if successfull, False otherwise
     """
@@ -113,7 +116,10 @@ def synthesize_text_api(endpoint, data_to_send, file_path):
         'Content-Type': 'application/json; charset=utf-8',
     }
     # Prepare the data for the request
-    data = '{"audioConfig":{"audioEncoding":"OGG_OPUS","effectsProfileId":["small-bluetooth-speaker-class-device"],"pitch":"0.00","speakingRate":"1.00"},"input":{"text":' + data_to_send + '},"voice":{"languageCode":"en-US","name":"en-US-Wavenet-E","ssmlGender":"FEMALE"}}'
+    data = '{"audioConfig":{"audioEncoding":"MP3","effectsProfileId":["small-bluetooth-speaker-class-device"],"pitch":"0.00","speakingRate":"1.00"},"input":{"text":"' + str(data_to_send) + '"},"voice":{"languageCode":"en-US","name":"en-US-Wavenet-E"}}'
+    # data = "{'input':{'text':'" + str(data_to_send) + "'},'voice':{'languageCode':'en-gb','name':'en-GB-Standard-A','ssmlGender':'FEMALE'},'audioConfig':{'audioEncoding':'MP3'}}"
+    # data = "{'input':{'text':'" + data_to_send + "'},'voice':{'languageCode':'en-gb','name':'en-GB-Standard-A','ssmlGender':'FEMALE'},'audioConfig':{'audioEncoding':'MP3'}}"
+    # data = data.encode('utf-8')
     request = requests.Request(
         'POST',
         endpoint,
@@ -129,11 +135,7 @@ def synthesize_text_api(endpoint, data_to_send, file_path):
     """
     session = requests.Session()
     response = session.send(ready)
-    print(response)
     if response.status_code == API_RESPONSE_OK:
-        with open(file_path, 'wb') as out:
-            out.write(response.audio_content)
-            print('Audio content written to file {}'.format(file_path))
-            return True
+        return response.text
     else:
         raise APIError(response.status_code)
