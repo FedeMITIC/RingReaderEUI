@@ -18,17 +18,17 @@ License:    MIT
 import base64
 from utility import *
 from detect_text import image_to_text
-from time import sleep
+# from time import sleep
 from tts import text_to_speech
-import os
+# import os
 
 
-def cleanup():
-    # check if audio files still exists and remove them
-    if os.path.exists(path=path + '.txt'):
-        os.remove(path=path + '.txt')
-    if os.path.exists(path=path + '.mp3'):
-        os.remove(path=path + '.mp3')
+# def cleanup():
+#     # check if audio files still exists and remove them
+#     if os.path.exists(path=path + '.txt'):
+#         os.remove(path=path + '.txt')
+#     if os.path.exists(path=path + '.mp3'):
+#         os.remove(path=path + '.mp3')
 
 
 def main():
@@ -68,10 +68,10 @@ def start():
     """
     # Define the params to capture the image
     img_capture_params = {
-        'framerate': 15,                # The framerate of the camera (15 is mandatory for the maximum resolution
-        'path': 'hq.jpg',               # Path where the captured image will be stored
-        'resolution': (2592, 1944),     # Resolution (tuple): resolution of the camera (2592, 1944) is the maximum
-        'sleep_time': 3                 # Sleep time (in seconds) to let the sensor focus on the object
+        'framerate': 15,                     # The framerate of the camera (15 is mandatory for the maximum resolution
+        'path': 'test_imgs/book_cover.jpg',  # Path where the captured image will be stored
+        'resolution': (2592, 1944),          # Resolution (tuple): resolution of the camera (2592, 1944) is the maximum
+        'sleep_time': 3                      # Sleep time (in seconds) to let the sensor focus on the object
     }
     # Capture the image using the camera
     capture_image(parameters=img_capture_params)
@@ -110,4 +110,4 @@ if __name__ == "__main__":
     setup()
     # play_audio('audio/help.ogg')  # Will be moved in the loop and played upon the pression of the help button
     main()
-    cleanup()
+    # cleanup()

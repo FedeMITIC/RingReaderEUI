@@ -13,46 +13,46 @@ Version     0.1.0
 License:    MIT
 """
 from PIL import Image
-from picamera import PiCamera
-from time import sleep
+# from picamera import PiCamera
+# from time import sleep
 import contextlib  # To disable the initial welcome message (https://stackoverflow.com/a/51470016)
 with contextlib.redirect_stdout(None):
     import pygame
 
 
-def help_button_pressed():
-    if not buttons_setup_done:
-        print('First ensure that the buttons are properly setted-up.')
-        exit(1)
-    return GPIO.input(help_button_pin)
+# def help_button_pressed():
+#     if not buttons_setup_done:
+#         print('First ensure that the buttons are properly setted-up.')
+#         exit(1)
+#     return GPIO.input(help_button_pin)
+#
+#
+# def photo_button_pressed():
+#     if not buttons_setup_done:
+#         print('First ensure that the buttons are properly setted-up.')
+#         exit(1)
+#     return GPIO.input(photo_button_pin)
 
 
-def photo_button_pressed():
-    if not buttons_setup_done:
-        print('First ensure that the buttons are properly setted-up.')
-        exit(1)
-    return GPIO.input(photo_button_pin)
-
-
-def buttons_setup():
-    import RPi.GPIO as GPIO
-    global buttons_setup_done
-    buttons_setup_done = False
-    GPIO.setmode(GPIO.BOARD)
-    global help_button_pin
-    global photo_button_pin
-    help_button_pin = 16  # Edit accordingly to the circuit
-    photo_button_pin = 18  # Edit accordingly to the circuit
-    GPIO.setup(help_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(photo_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    buttons_setup_done = True
+# def buttons_setup():
+#     import RPi.GPIO as GPIO
+#     global buttons_setup_done
+#     buttons_setup_done = False
+#     GPIO.setmode(GPIO.BOARD)
+#     global help_button_pin
+#     global photo_button_pin
+#     help_button_pin = 16  # Edit accordingly to the circuit
+#     photo_button_pin = 18  # Edit accordingly to the circuit
+#     GPIO.setup(help_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#     GPIO.setup(photo_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#     buttons_setup_done = True
 
 
 def capture_image(parameters):
-    camera.resolution = parameters['resolution']
-    camera.framerate = parameters['framerate']
-    sleep(parameters['sleep_time'])
-    camera.capture(parameters.path)
+    # camera.resolution = parameters['resolution']
+    # camera.framerate = parameters['framerate']
+    # sleep(parameters['sleep_time'])
+    # camera.capture(parameters.path)
     im = Image.open(parameters['path'])
     return im
 
