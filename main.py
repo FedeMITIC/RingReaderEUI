@@ -40,7 +40,6 @@ def main():
     #     # passed_epoch gets incremented every time the user does not use the button.
     #     # it is then used to sleep the process (save resources) for a certain amount time that increase over time
     #     # at most it will become 12, meanin that 120seconds will be waited (2 mins)
-    #     sleep(passed_epoch * 10)
     #     if button_pressed():
     #         passed_epoch = 0
     #         start()
@@ -49,6 +48,7 @@ def main():
     #         if passed_epoch > 12:
     #             passed_epoch = 0
     #         pass
+    #     sleep(passed_epoch * 10)
     start()
 
 
@@ -59,6 +59,7 @@ def prepare_audio_file(input_path, output_path):
     output_file = open(output_path, 'wb+')
     output_file.write(decoded_content)
     input_file.close()
+    os.remove(input_path + '.txt')
     output_file.close()
 
 
@@ -68,19 +69,19 @@ def start():
     """
     # Define the params to capture the image
     img_capture_params = {
-        'framerate': 15,                     # The framerate of the camera (15 is mandatory for the maximum resolution
-        'path': 'test_imgs/book_cover.jpg',  # Path where the captured image will be stored
+        'framerate': 15,                     # The framerate of the camera (15 is mandatory for the maximum resolution)
+        'path': 'test_imgs/tmp',  # Path where the captured image will be stored
+        'ext': '.jpg',
         'resolution': (2592, 1944),          # Resolution (tuple): resolution of the camera (2592, 1944) is the maximum
         'sleep_time': 3                      # Sleep time (in seconds) to let the sensor focus on the object
     }
     # Capture the image using the camera
-    capture_image(parameters=img_capture_params)
+    captured_image_path = capture_image(parameters=img_capture_params)
     # Extract the text from the image
-    text = image_to_text(api_key=API_KEY_OCR, path=img_capture_params['path'])
+    text = image_to_text(api_key=API_KEY_OCR, path=captured_image_path)
     # Transform the text into speech
-    if text_to_speech(api_key=API_KET_TTS, text=text, path=path):
+    if text_to_speech(api_key=API_KEY_TTS, text=text, path=path):
         # Play audio
-        # play_audio(path=path)
         prepare_audio_file(input_path=path + '.txt', output_path=path + '.mp3')
         play_audio(path=path + '.mp3')
     else:
@@ -90,12 +91,12 @@ def start():
 def setup():
     # Get the API key
     try:
-        file_ocr = open('../API_OCR.txt', 'r')
+        file_ocr = open('../API_TTS.txt', 'r')
         file_tts = open('../API_TTS.txt', 'r')
         global API_KEY_OCR
-        global API_KET_TTS
+        global API_KEY_TTS
+        API_KEY_TTS = file_tts.read()
         API_KEY_OCR = file_ocr.read()
-        API_KET_TTS = file_tts.read()
         file_ocr.close()
         file_tts.close()
     except FileNotFoundError:

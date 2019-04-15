@@ -58,7 +58,7 @@ def text_to_speech(api_key, text, path):
         result = False
     api_response = json.loads(result)
     base_64_content = api_response['audioContent']
-    file = open(path + '.txt', 'w+')
+    file = open(path + '.txt', 'x')
     file.write(base_64_content)
     file.close()
     return True

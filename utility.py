@@ -12,12 +12,11 @@ Date:	    26/02/2019
 Version     0.1.0
 License:    MIT
 """
+import os
 from PIL import Image
-# from picamera import PiCamera
-# from time import sleep
-import contextlib  # To disable the initial welcome message (https://stackoverflow.com/a/51470016)
-with contextlib.redirect_stdout(None):
-    import pygame
+from picamera import PiCamera
+from time import sleep
+import pygame
 
 
 # def help_button_pressed():
@@ -49,12 +48,18 @@ with contextlib.redirect_stdout(None):
 
 
 def capture_image(parameters):
-    # camera.resolution = parameters['resolution']
-    # camera.framerate = parameters['framerate']
-    # sleep(parameters['sleep_time'])
-    # camera.capture(parameters.path)
-    im = Image.open(parameters['path'])
-    return im
+    fullpath = parameters['path'] + parameters['ext']
+    i = 0
+    while os.path.exists(fullpath):
+        fullpath = parameters['path'] + str(i) + parameters['ext']
+        i += 1 
+    camera = PiCamera()
+    camera.resolution = parameters['resolution']
+    camera.framerate = parameters['framerate']
+    sleep(parameters['sleep_time'])
+    camera.capture(fullpath)
+    # im = Image.open(parameters['path'])
+    return fullpath
 
 
 def play_audio(path):

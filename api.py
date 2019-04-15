@@ -50,9 +50,6 @@ def detect_text_api(endpoint, data_to_send):
     }
     # data using a Base64 image
     data = '{"requests":[{"image":{"content":"' + encode_image(data_to_send).decode('utf-8') + '"},"features":[{"type":"DOCUMENT_TEXT_DETECTION"}]}]}'
-    # data using a URL
-    # data = "{'requests': [{'image': {'source': {'imageUri': 'gs://bucket-name-123/abbey_road.jpg'}},'features':[{" \
-    #      "'type': 'TEXT_DETECTION'}]}]} "
     request = requests.Request(
         'POST',
         endpoint,
@@ -61,7 +58,7 @@ def detect_text_api(endpoint, data_to_send):
     )
     ready = request.prepare()
     # Pretty print the request BEFORE sending it out
-    pretty_print_post(ready)
+    # pretty_print_post(ready)
     # Send the request
     """
     Disclaimer: please send the request ONLY if the printed version obtained from above is correct,
@@ -74,9 +71,6 @@ def detect_text_api(endpoint, data_to_send):
         return response.text
     else:
         raise APIError(response.status_code)
-    # return 'Debug - No API call sent'
-    # # Instead of calling the API, to avoid consuming API quota do a fake call and load the fake reply from a file
-    # return open('response.txt', 'r').read()
 
 
 def encode_image(path):
@@ -119,7 +113,7 @@ def synthesize_text_api(endpoint, data_to_send):
     data = '{"audioConfig":{"audioEncoding":"MP3","effectsProfileId":["small-bluetooth-speaker-class-device"],"pitch":"0.00","speakingRate":"1.00"},"input":{"text":"' + str(data_to_send) + '"},"voice":{"languageCode":"en-US","name":"en-US-Wavenet-E"}}'
     # data = "{'input':{'text':'" + str(data_to_send) + "'},'voice':{'languageCode':'en-gb','name':'en-GB-Standard-A','ssmlGender':'FEMALE'},'audioConfig':{'audioEncoding':'MP3'}}"
     # data = "{'input':{'text':'" + data_to_send + "'},'voice':{'languageCode':'en-gb','name':'en-GB-Standard-A','ssmlGender':'FEMALE'},'audioConfig':{'audioEncoding':'MP3'}}"
-    # data = data.encode('utf-8')
+    data = data.encode('utf-8')
     request = requests.Request(
         'POST',
         endpoint,

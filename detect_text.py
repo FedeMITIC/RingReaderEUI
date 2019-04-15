@@ -15,10 +15,6 @@ import json
 
 
 def image_to_text(api_key, path):
-    # try:
-    #     image = get_image(path)
-    # except FileNotFoundError:
-    #     print("Impossible to load {}, file not found.".format(path))
     text_from_image = ""
     endpoint = 'https://vision.googleapis.com/v1/images:annotate?key=' + api_key
     try:
@@ -29,6 +25,11 @@ def image_to_text(api_key, path):
     # This is just terrible.
     text = json.loads(text_from_image, encoding='utf-8')
     text = text['responses']
-    return text[0]['textAnnotations'][0]['description']
+    text = text[0]['textAnnotations'][0]['description']
+    # Replace single quotes with escaped single quotes
+    text = text.replace("'", "\'")
+    # Replace new lines chars with blank
+    text = text.replace("\n", " ")
+    return text
     # Process the extracted text
 
