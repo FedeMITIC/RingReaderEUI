@@ -72,4 +72,3 @@ def tts(text, path):
         # Write the response to the output file.
         out.write(response.audio_content)
         print('Audio content written to file {}'.format(path))
-
