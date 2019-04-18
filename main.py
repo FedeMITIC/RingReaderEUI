@@ -23,32 +23,13 @@ from tts import text_to_speech
 # import os
 
 
-# def cleanup():
-#     # check if audio files still exists and remove them
-#     if os.path.exists(path=path + '.txt'):
-#         os.remove(path=path + '.txt')
-#     if os.path.exists(path=path + '.mp3'):
-#         os.remove(path=path + '.mp3')
+# TODO: have a look at this https://stackoverflow.com/questions/16143842/raspberry-pi-gpio-events-in-python/18596063#18596063
 
 
 def main():
     """
     Todo: set-up buttons and infinite loop
     """
-    # passed_epoch = 1
-    # while True:
-    #     # passed_epoch gets incremented every time the user does not use the button.
-    #     # it is then used to sleep the process (save resources) for a certain amount time that increase over time
-    #     # at most it will become 12, meanin that 120seconds will be waited (2 mins)
-    #     if button_pressed():
-    #         passed_epoch = 0
-    #         start()
-    #     else:
-    #         passed_epoch += 1
-    #         if passed_epoch > 12:
-    #             passed_epoch = 0
-    #         pass
-    #     sleep(passed_epoch * 10)
     start()
 
 

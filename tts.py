@@ -39,27 +39,37 @@ Date:	    26/02/2019
 Version     0.1.0
 License:    MIT
 """
-from api import *
-import json
+import io
+from google.cloud import texttospeech
 
 
-def text_to_speech(api_key, text, path):
-    """
-        Important: the text sent to the server MUST NOT CONTAIN:
-        - The "'" (single quotation mark) symbol
-        - The '"' (double quotation mark) symbol
-    """
-    # Append the API Key to the endpoint to authenticate with the APIs
-    endpoint = 'https://texttospeech.googleapis.com/v1/text:synthesize?key=' + str(api_key)
-    try:
-        result = synthesize_text_api(endpoint=endpoint, data_to_send=text)
-    except APIError:
-        print('API call failed.')
-        result = False
-    api_response = json.loads(result)
-    base_64_content = api_response['audioContent']
-    file = open(path + '.txt', 'x')
-    file.write(base_64_content)
-    file.close()
-    return True
+# TODO: configure request to API
+
+
+def tts(text, path):
+    # Instantiates a client
+    client = texttospeech.TextToSpeechClient()
+
+    # Set the text input to be synthesized
+    synthesis_input = texttospeech.types.SynthesisInput(text=text)
+
+    # Build the voice request, select the language code ("en-US") and the ssml
+    # voice gender ("neutral")
+    voice = texttospeech.types.VoiceSelectionParams(
+        language_code='en-US',
+        ssml_gender=texttospeech.enums.SsmlVoiceGender.NEUTRAL)
+
+    # Select the type of audio file you want returned
+    audio_config = texttospeech.types.AudioConfig(
+        audio_encoding=texttospeech.enums.AudioEncoding.MP3)
+
+    # Perform the text-to-speech request on the text input with the selected
+    # voice parameters and audio file type
+    response = client.synthesize_speech(synthesis_input, voice, audio_config)
+
+    # The response's audio_content is binary.
+    with open(path, 'wb') as out:
+        # Write the response to the output file.
+        out.write(response.audio_content)
+        print('Audio content written to file {}'.format(path))
 

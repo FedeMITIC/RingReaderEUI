@@ -9,27 +9,27 @@ Date:	    03/03/2019
 Version     0.1.0
 License:    MIT
 """
-import sys
-from api import *
-import json
+import io
+from google.cloud import vision
 
 
-def image_to_text(api_key, path):
-    text_from_image = ""
-    endpoint = 'https://vision.googleapis.com/v1/images:annotate?key=' + api_key
-    try:
-        text_from_image = detect_text_api(endpoint=endpoint, data_to_send=path)
-    except APIError:
-        exit(API_ERROR_INVALID_FORMAT)
-    print("Detected text: {}".format(text_from_image))
-    # This is just terrible.
-    text = json.loads(text_from_image, encoding='utf-8')
-    text = text['responses']
-    text = text[0]['textAnnotations'][0]['description']
-    # Replace single quotes with escaped single quotes
-    text = text.replace("'", "\'")
-    # Replace new lines chars with blank
-    text = text.replace("\n", " ")
-    return text
-    # Process the extracted text
+def detect_document(path):
+    client = vision.ImageAnnotatorClient()
+
+    with io.open(path, 'rb') as image_file:
+        content = image_file.read()
+
+    image = vision.types.Image(content=content)
+
+    response = client.document_text_detection(image=image)
+
+    for page in response.full_text_annotation.pages:
+        for block in page.blocks:
+            for paragraph in block.paragraphs:
+                for word in paragraph.words:
+                    word_text = ''.join([
+                        symbol.text for symbol in word.symbols
+                    ])
+                    print(word_text, end=" ")
+    return word_text
 
