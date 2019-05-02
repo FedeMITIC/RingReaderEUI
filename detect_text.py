@@ -13,9 +13,10 @@ import io
 from google.cloud import vision
 
 
-def detect_document(path):
+def detect_text(path):
     client = vision.ImageAnnotatorClient()
-
+    # So the linter doesn't scream.
+    word_text = ''
     with io.open(path, 'rb') as image_file:
         content = image_file.read()
 

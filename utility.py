@@ -19,32 +19,32 @@ from time import sleep
 import pygame
 
 
-# def help_button_pressed():
-#     if not buttons_setup_done:
-#         print('First ensure that the buttons are properly setted-up.')
-#         exit(1)
-#     return GPIO.input(help_button_pin)
-#
-#
-# def photo_button_pressed():
-#     if not buttons_setup_done:
-#         print('First ensure that the buttons are properly setted-up.')
-#         exit(1)
-#     return GPIO.input(photo_button_pin)
+def help_button_pressed():
+    if not buttons_setup_done:
+        print('First ensure that the buttons are properly setted-up.')
+        exit(1)
+    return GPIO.input(help_button_pin)
 
 
-# def buttons_setup():
-#     import RPi.GPIO as GPIO
-#     global buttons_setup_done
-#     buttons_setup_done = False
-#     GPIO.setmode(GPIO.BOARD)
-#     global help_button_pin
-#     global photo_button_pin
-#     help_button_pin = 16  # Edit accordingly to the circuit
-#     photo_button_pin = 18  # Edit accordingly to the circuit
-#     GPIO.setup(help_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#     GPIO.setup(photo_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#     buttons_setup_done = True
+def photo_button_pressed():
+    if not buttons_setup_done:
+        print('First ensure that the buttons are properly setted-up.')
+        exit(1)
+    return GPIO.input(photo_button_pin)
+
+
+def buttons_setup():
+    import RPi.GPIO as GPIO
+    global buttons_setup_done
+    buttons_setup_done = False
+    GPIO.setmode(GPIO.BOARD)
+    global help_button_pin
+    global photo_button_pin
+    help_button_pin = 16  # Edit accordingly to the circuit
+    photo_button_pin = 18  # Edit accordingly to the circuit
+    GPIO.setup(help_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(photo_button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    buttons_setup_done = True
 
 
 def capture_image(parameters):
