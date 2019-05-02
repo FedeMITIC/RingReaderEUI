@@ -18,8 +18,9 @@ License:    MIT
 DISCLAIMER: setup the service account using this guide https://cloud.google.com/vision/docs/quickstart-client-libraries
 before usage.
 """
-from utility import play_audio
-from utility import capture_image
+# from utility import play_audio
+# from utility import capture_image
+from utility import *
 from detect_text import detect_text
 from time import sleep
 import RPi.GPIO as GPIO
@@ -42,11 +43,19 @@ from tts import tts
 #     conf = dict()
 #     for key in config.sections():
 #         print(key)
-def my_callback(channel):
+
+
+def my_callback_1(e):
+    print("Callback 1 called")
     sleep(1)
     if GPIO.input(15):
-        # start()
         print('Start pressed')
+        start()
+
+
+def my_callback_2(e):
+    print("Callback 2 called")
+    sleep(1)
     if GPIO.input(24):
         print('Help pressed')
         play_audio('audio/help.ogg')
@@ -67,12 +76,16 @@ def start():
     # play_audio('audio/help.ogg')  # Will be moved in the loop and played upon the pression of the help button
     audio_path = 'audio/tmp/output.mp3'
     # Capture the image using the camera
+    print("Capturing the image...")
     captured_image_path = capture_image(parameters=img_capture_params)
     # Extract the text from the image
+    print("Detecting text...")
     text = detect_text(path=captured_image_path)
     # Transform the text into speech
+    print("Generating speech...")
     tts(text=text, path=audio_path)
     # Play audio
+    print("Playing audio...")
     play_audio(path=audio_path)
 
 
@@ -81,10 +94,14 @@ if __name__ == "__main__":
     # conf is a dictionary where the keys are configuration options and the values are the values of those configurations
     # conf = setup(sys.argv[1])
     # start(configuration=conf)
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(15, GPIO.RISING, callback=my_callback, bouncetime=300)
-    GPIO.add_event_detect(24, GPIO.RISING, callback=my_callback, bouncetime=300)
-    while True:
-        pass
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.add_event_detect(15, GPIO.FALLING, callback=my_callback_1, bouncetime=300)
+    GPIO.add_event_detect(24, GPIO.FALLING, callback=my_callback_2, bouncetime=300)
+    print("Setup complete")
+    try:
+        while True:
+            sleep(0.1)
+    except KeyboardInterrupt:
+        GPIO.cleanup()
