@@ -3,6 +3,11 @@
 ## Purpose
 
 
+### Additional resources
+
+Demo video: https://drive.google.com/file/d/1DO_9yqXCI3ZUt28N1DBO-Wa7uD8-RLUO/view (Actress: Xinyan Luo, one of my teammates, Production: me)
+Report: 
+
 ## Usage
 ### RaspberryPi info
 ```
