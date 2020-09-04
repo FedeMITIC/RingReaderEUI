@@ -33,4 +33,3 @@ def detect_text(path):
                     ])
                     print(word_text, end=" ")
     return word_text
-

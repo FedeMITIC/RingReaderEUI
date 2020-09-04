@@ -43,9 +43,6 @@ import io
 from google.cloud import texttospeech
 
 
-# TODO: configure request to API
-
-
 def tts(text, path):
     # Instantiates a client
     client = texttospeech.TextToSpeechClient()

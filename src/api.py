@@ -111,8 +111,6 @@ def synthesize_text_api(endpoint, data_to_send):
     }
     # Prepare the data for the request
     data = '{"audioConfig":{"audioEncoding":"MP3","effectsProfileId":["small-bluetooth-speaker-class-device"],"pitch":"0.00","speakingRate":"1.00"},"input":{"text":"' + str(data_to_send) + '"},"voice":{"languageCode":"en-US","name":"en-US-Wavenet-E"}}'
-    # data = "{'input':{'text':'" + str(data_to_send) + "'},'voice':{'languageCode':'en-gb','name':'en-GB-Standard-A','ssmlGender':'FEMALE'},'audioConfig':{'audioEncoding':'MP3'}}"
-    # data = "{'input':{'text':'" + data_to_send + "'},'voice':{'languageCode':'en-gb','name':'en-GB-Standard-A','ssmlGender':'FEMALE'},'audioConfig':{'audioEncoding':'MP3'}}"
     data = data.encode('utf-8')
     request = requests.Request(
         'POST',
