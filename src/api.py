@@ -43,7 +43,7 @@ def detect_text_api(endpoint, data_to_send):
         :type: string
 
     cURL request example
-    curl -X POST -H "Content-Type: application/json; charset=utf-8" --data "{'requests': [{'image': {'source': {'imageUri': 'gs://bucket-name-123/abbey_road.jpg'}},'features': [{'type': 'TEXT_DETECTION'}]}]}" "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCaIGDVt1dla0V0U19Dv3IOnBCG5FCAE9E"
+    curl -X POST -H "Content-Type: application/json; charset=utf-8" --data "{'requests': [{'image': {'source': {'imageUri': 'gs://bucket-name-123/abbey_road.jpg'}},'features': [{'type': 'TEXT_DETECTION'}]}]}" "https://vision.googleapis.com/v1/images:annotate?key=API_KEY"
     """
     headers = {
         'Content-Type': 'application/json; charset=utf-8',
